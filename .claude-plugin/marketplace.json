@@ -13,6 +13,13 @@
       "skills": ["./skills/datashield"]
     },
     {
+      "name": "datashield-dev",
+      "description": "Develop DataSHIELD R packages: client/server function pairs, disclosure checks, testing with DSLite, releases, and disclosure audits.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/datashield-dev"]
+    },
+    {
       "name": "armadillo",
       "description": "Manage MOLGENIS Armadillo servers: projects, tables and resources, uploads, subsets, profiles, package installs, and server installation, updates and migrations.",
       "source": "./",

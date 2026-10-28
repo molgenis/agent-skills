@@ -7,6 +7,7 @@ format, so any agent that supports skills can use them.
 | Skill | For |
 |---|---|
 | `datashield` | Analysts running federated analyses with DataSHIELD |
+| `datashield-dev` | Developers writing or auditing DataSHIELD packages |
 | `armadillo` | Data managers and administrators of Armadillo servers |
 
 ## Install
@@ -16,6 +17,7 @@ Claude Code, one plugin per skill:
 ```
 /plugin marketplace add molgenis/agent-skills
 /plugin install datashield@molgenis
+/plugin install datashield-dev@molgenis
 /plugin install armadillo@molgenis
 ```
 
@@ -24,6 +26,7 @@ Other agents (Codex, Cursor, Gemini CLI, GitHub Copilot and others), with the
 
 ```
 npx skills add molgenis/agent-skills --skill datashield
+npx skills add molgenis/agent-skills --skill datashield-dev
 npx skills add molgenis/agent-skills --skill armadillo
 ```
 
@@ -39,6 +42,10 @@ Add `-g` to install for all projects rather than the current one.
 - `skills/datashield/references/examples/`: worked examples contributed from real analyses.
 - `skills/datashield/references/patterns.md`: DataSHIELD-specific patterns and pitfalls.
 - `skills/datashield/references/style.md`: default conventions for results and plots.
+- `skills/datashield-dev/SKILL.md`: disclosure rules and workflow for developing DataSHIELD
+  packages.
+- `skills/datashield-dev/references/docs/`: the DataSHIELD wiki developer guide and disclosure
+  control pages.
 - `skills/armadillo/SKILL.md`: rules and workflows for managing Armadillo servers and their data.
 - `skills/armadillo/references/functions/`: MolgenisArmadillo and DSMolgenisArmadillo references.
 - `skills/armadillo/references/docs/`: the Armadillo server documentation, generated from the
@@ -54,9 +61,11 @@ Rscript tools/build-recipes.R <datashieldWiki>/analysis-tutorials skills/datashi
 Rscript tools/list-releases.R armadillo.csv molgenis/molgenis-r-armadillo molgenis/molgenis-r-datashield
 Rscript tools/build-all-references.R armadillo.csv skills/armadillo/references/functions
 Rscript tools/build-armadillo-docs.R <molgenis-service-armadillo at its release tag> <version> skills/armadillo/references/docs
+
+Rscript tools/build-wiki-guide.R <datashieldWiki> tools/datashield-dev-pages.txt skills/datashield-dev/references/docs
 ```
 
-Set `GITHUB_TOKEN` to avoid GitHub's API rate limit.
+`build-wiki-guide.R` needs pandoc for the wiki's HTML pages. Set `GITHUB_TOKEN` to avoid GitHub's API rate limit.
 
 ## Checks
 
