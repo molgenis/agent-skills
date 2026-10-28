@@ -45,17 +45,30 @@ shorten_text <- function(text, max_chars) {
   if (nchar(text) > max_chars) paste0(str_sub(text, 1, max_chars - 3), "...") else text
 }
 
-find_server_call_type <- function(function_name, r_dir) {
+read_function_code <- function(function_name, r_dir) {
   bodies <- map(list.files(r_dir, "\\.[Rr]$", full.names = TRUE), \(file) {
     exprs <- tryCatch(parse(file, keep.source = FALSE), error = \(e) list())
     keep(exprs, \(e) is.call(e) && is.name(e[[1]]) && as.character(e[[1]]) %in% c("<-", "=") &&
       identical(as.character(e[[2]]), function_name))
   })
-  code <- paste(unlist(map(unlist(bodies), deparse)), collapse = "\n")
+  paste(unlist(map(unlist(bodies), deparse)), collapse = "\n")
+}
+
+find_server_call_type <- function(code) {
   calls_assign <- str_detect(code, "datashield\\.assign")
   calls_aggregate <- str_detect(code, "datashield\\.aggregate")
   if (calls_assign && calls_aggregate) "assign + aggregate"
   else if (calls_assign) "assign" else if (calls_aggregate) "aggregate" else ""
+}
+
+# Packages mark lifecycle in the code (.Deprecated, lifecycle::deprecate_*), in an
+# Rd badge, or both; the code wins because it decides what a call actually does.
+find_lifecycle <- function(code, rd_text) {
+  if (str_detect(code, "\\.Defunct\\(|deprecate_stop\\(")) return("defunct")
+  if (str_detect(code, "\\.Deprecated\\(|deprecate_(warn|soft)\\(")) return("deprecated")
+  if (str_detect(rd_text, fixed("[Deprecated]"))) return("deprecated")
+  if (str_detect(rd_text, fixed("[Superseded]"))) return("superseded")
+  ""
 }
 
 read_exported_names <- function(source_dir) {
@@ -69,28 +82,33 @@ describe_rd_file <- function(rd_file, exported, r_dir) {
   if (!name %in% exported || read_rd_text(rd, "\\docType") %in% c("package", "data")) {
     return(NULL)
   }
+  title <- read_rd_text(rd, "\\title")
+  description <- read_rd_text(rd, "\\description")
+  code <- read_function_code(name, r_dir)
   list(
     name = name,
-    title = read_rd_text(rd, "\\title"),
-    description = shorten_text(read_rd_text(rd, "\\description"), 400),
+    title = title,
+    description = shorten_text(description, 400),
     usage = read_rd_usage(rd),
     arguments = read_rd_arguments(rd),
-    type = find_server_call_type(name, r_dir)
+    type = find_server_call_type(code),
+    lifecycle = find_lifecycle(code, paste(title, description))
   )
 }
 
 format_function_entry <- function(entry) {
   type_line <- if (nzchar(entry$type)) paste0("Server call: ", entry$type, "\n\n") else ""
+  lifecycle_line <- if (nzchar(entry$lifecycle)) paste0("Lifecycle: ", entry$lifecycle, "\n\n") else ""
   usage_block <- if (nzchar(entry$usage)) paste0("```r\n", entry$usage, "\n```\n\n") else ""
   paste0(
     "## ", entry$name, "\n\n", entry$title, ". ", entry$description, "\n\n",
-    type_line, usage_block, paste(entry$arguments, collapse = "\n"), "\n"
+    type_line, lifecycle_line, usage_block, paste(entry$arguments, collapse = "\n"), "\n"
   )
 }
 
 format_index_table <- function(entries) {
-  rows <- map_chr(entries, \(e) paste0("| `", e$name, "` | ", e$type, " | ", e$title, " |"))
-  paste(c("| Function | Server call | Purpose |", "|---|---|---|", rows), collapse = "\n")
+  rows <- map_chr(entries, \(e) paste0("| `", e$name, "` | ", e$type, " | ", e$lifecycle, " | ", e$title, " |"))
+  paste(c("| Function | Server call | Lifecycle | Purpose |", "|---|---|---|---|", rows), collapse = "\n")
 }
 
 write_reference <- function(source_dir, output_file) {
