@@ -114,6 +114,6 @@ Read only what the task needs:
   many models, meta-analysis, multiple imputation, or custom plots.
 - `references/recipes/index.md`: worked examples generated from the DataSHIELD wiki tutorials.
   Read the matching recipe before a multi-step analysis.
-- `references/style.md`: conventions for client-side results, plots and forest plots. Read it
-  before building result tables or figures.
+- `references/style.md`: default conventions for results tables, plots and forest plots. Read it
+  when the user hasn't specified their own.
 - If the user needs to do something that you don't know about, you can get a full list of available packages here: https://packages.datashield.org/
