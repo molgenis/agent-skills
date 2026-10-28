@@ -1,0 +1,40 @@
+name: Check skill
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::purrr
+            any::stringr
+            any::yaml
+
+      - name: Check skills
+        run: |
+          status=0
+          for skill in skills/*/; do
+            Rscript tools/check-skill.R "${skill%/}" || status=1
+          done
+          exit $status
