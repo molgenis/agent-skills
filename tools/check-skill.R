@@ -1,6 +1,6 @@
 # Checks that a skill's SKILL.md and reference files are consistent: valid
-# frontmatter, every path SKILL.md points to present, every DataSHIELD function
-# named documented in references/functions/, and no username or password
+# frontmatter, every path SKILL.md points to present, every function called
+# documented in references/functions/, and no username or password
 # arguments, so an agent is never sent to a missing file, told to use a function
 # that does not exist, or shown credentials.
 # Usage: Rscript check-skill.R <skill-dir>
@@ -40,8 +40,9 @@ read_function_lifecycles <- function(skill_dir) {
   set_names(index_rows[, 3], index_rows[, 2])
 }
 
-find_named_functions <- function(text) {
-  unique(str_match_all(text, "(?<![\\w.])((ds|dh|datashield)\\.[\\w.]*\\w)(?=\\(|`)")[[1]][, 2])
+# Only calls count: backticked names such as armadillo.conf are files and hosts, not functions.
+find_called_functions <- function(text) {
+  unique(str_match_all(text, "(?<![\\w.])((ds|dh|datashield|armadillo)\\.[\\w.]*\\w)\\(")[[1]][, 2])
 }
 
 find_undocumented_functions <- function(names, lifecycles) {
@@ -55,7 +56,7 @@ find_functions_in_lifecycle <- function(names, lifecycles, stages) {
 }
 
 check_functions <- function(text, lifecycles) {
-  names <- find_named_functions(text)
+  names <- find_called_functions(text)
   list(
     errors = c(find_undocumented_functions(names, lifecycles),
                find_functions_in_lifecycle(names, lifecycles, "defunct")),
@@ -64,7 +65,7 @@ check_functions <- function(text, lifecycles) {
 }
 
 find_credentials <- function(text) {
-  if (str_detect(text, regex("password\\s*=|user\\s*=", ignore_case = TRUE))) {
+  if (str_detect(text, regex("\\b(password|user)\\s*=", ignore_case = TRUE))) {
     "contains a username or password argument"
   }
 }
@@ -90,8 +91,11 @@ list_reference_files <- function(skill_dir) {
   discard(files, \(file) str_detect(file, "/references/functions/"))
 }
 
+# references/docs/ holds external documentation that may show other skills' functions, so only
+# its credentials are checked.
 check_reference_file <- function(file, lifecycles) {
   text <- paste(readLines(file), collapse = "\n")
+  if (str_detect(file, "/references/docs/")) return(list(errors = find_credentials(text), warnings = NULL))
   functions <- check_functions(text, lifecycles)
   list(errors = c(functions$errors, find_credentials(text)), warnings = functions$warnings)
 }
