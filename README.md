@@ -28,6 +28,7 @@ Add `-g` to install for all projects rather than the current one.
   package with a GitHub release, generated from the package documentation.
 - `skills/datashield/references/recipes/`: worked examples generated from the DataSHIELD wiki
   tutorials.
+- `skills/datashield/references/examples/`: worked examples contributed from real analyses.
 - `skills/datashield/references/patterns.md`: DataSHIELD-specific patterns and pitfalls.
 - `skills/datashield/references/style.md`: default conventions for results and plots.
 
@@ -43,6 +44,11 @@ Set `GITHUB_TOKEN` to avoid GitHub's API rate limit.
 
 ## Checks
 
-`tools/check-skill.R` runs on every pull request and checks that each `SKILL.md` has valid
-frontmatter, that the files it points to exist, and that every DataSHIELD function it names is in
-`references/functions/`.
+`tools/check-skill.R` runs on every pull request. It checks that each `SKILL.md` has valid
+frontmatter and that the files it points to exist. Across `SKILL.md` and the reference files, it
+fails on DataSHIELD functions missing from `references/functions/`, on defunct functions and on
+username or password arguments, and warns on deprecated or superseded functions.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).

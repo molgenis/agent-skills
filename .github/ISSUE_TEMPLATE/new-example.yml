@@ -1,0 +1,42 @@
+name: New example
+description: Propose a worked example for the skill's knowledge base
+title: "Example: "
+labels: [example]
+body:
+  - type: input
+    id: task
+    attributes:
+      label: Task
+      description: What the example does, in one line.
+      placeholder: Derive within-cohort z-scores
+    validations:
+      required: true
+  - type: textarea
+    id: when
+    attributes:
+      label: When to use it
+      description: The situation an agent should recognise, and any pitfalls it avoids.
+    validations:
+      required: true
+  - type: textarea
+    id: code
+    attributes:
+      label: Code
+      description: Working R code. Use generic object and variable names.
+      render: r
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Package versions tested
+      placeholder: dsBaseClient 6.3.5, dsTidyverseClient 1.1.1, dsHelper 1.7.5
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Before submitting
+      options:
+        - label: The code contains no usernames, passwords, tokens, server URLs, table paths or cohort names.
+          required: true
