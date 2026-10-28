@@ -16,9 +16,10 @@ individual-level data, so they are where disclosure is controlled.
   disclosure checks on the server. Never rely on client-side checks: the client can be bypassed.
 - **Use the server's settings, not your own numbers.** Read thresholds with
   `dsBase::listDisclosureSettingsDS` (`nfilter.tab`, `nfilter.subset`, `nfilter.glm`,
-  `nfilter.levels`, `nfilter.string`, `nfilter.noise`, `nfilter.k`) and respect
-  `datashield.privacyControlLevel` (`dsBase::checkPermissivePrivacyControlLevel`). Document any
-  new setting a function introduces.
+  `nfilter.string`, `nfilter.stringShort`, `nfilter.kNN`, `nfilter.levels.density`,
+  `nfilter.levels.max`, `nfilter.noise`) and respect `datashield.privacyControlLevel`
+  (`dsBase::checkPermissivePrivacyControlLevel`). Document any new setting a function introduces.
+  `references/code/` shows how dsBase applies each kind of check.
 - **Check before `eval`.** Any client-supplied value that is parsed or evaluated on the server
   must be validated first.
 - **Declare only intended methods** under `AggregateMethods` and `AssignMethods` in
@@ -58,6 +59,13 @@ client unit tests (testthat, DSLite), vignettes, site, GitHub release, CRAN.
 
 Read only what the task needs:
 
+- `references/functions/`: dsBase (server functions and helpers such as
+  `listDisclosureSettingsDS`) and DSI (`datashield.aggregate`, `datashield.assign`), generated from
+  each package's documentation. Never use a function or argument that isn't there.
+- `references/code/index.md`: verbatim source from the latest releases. The dsExample package
+  template (client, server, exports file, DSLite tests) and dsBase function pairs that each show
+  one disclosure check: settings, table cell counts, subset size, GLM saturation, levels density.
+  Start new packages from the template and copy the check pattern that fits.
 - `references/docs/index.md`: the DataSHIELD developer guide and disclosure control pages,
   generated from the DataSHIELD wiki. `opmanag-disclosure-control-dsBase-checks.md` lists the
   automated disclosure checks in each dsBase function; `opmanag-disclosure-control.md` explains
