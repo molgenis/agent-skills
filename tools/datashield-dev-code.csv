@@ -1,0 +1,19 @@
+example,repo,path
+Package template,datashield/dsExampleClient,R/ds.funLevels.R
+Package template,datashield/dsExample,R/funLevelsDS.R
+Package template,datashield/dsExample,inst/DATASHIELD
+Package template,datashield/dsExample,tests/testthat/test-funLevelsDS.R
+Package template,datashield/dsExampleClient,tests/testthat/setup-ds-lite.R
+Package template,datashield/dsExampleClient,tests/testthat/test-dsFunLevelsClient.R
+Disclosure settings,datashield/dsBase,R/listDisclosureSettingsDS.R
+Disclosure settings,datashield/dsBase,R/checkPermissivePrivacyControlLevel.R
+Table cell counts,datashield/dsBaseClient,R/ds.table.R
+Table cell counts,datashield/dsBase,R/tableDS.R
+Subset size,datashield/dsBaseClient,R/ds.dataFrameSubset.R
+Subset size,datashield/dsBase,R/dataFrameSubsetDS1.R
+Subset size,datashield/dsBase,R/dataFrameSubsetDS2.R
+GLM saturation,datashield/dsBaseClient,R/ds.glm.R
+GLM saturation,datashield/dsBase,R/glmDS1.R
+GLM saturation,datashield/dsBase,R/glmDS2.R
+Levels density,datashield/dsBaseClient,R/ds.levels.R
+Levels density,datashield/dsBase,R/levelsDS.R

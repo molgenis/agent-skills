@@ -91,11 +91,11 @@ list_reference_files <- function(skill_dir) {
   discard(files, \(file) str_detect(file, "/references/functions/"))
 }
 
-# references/docs/ holds external documentation that may show other skills' functions, so only
-# its credentials are checked.
+# references/docs/ and references/code/ hold external documentation and verbatim package source
+# that call functions documented elsewhere, so only their credentials are checked.
 check_reference_file <- function(file, lifecycles) {
   text <- paste(readLines(file), collapse = "\n")
-  if (str_detect(file, "/references/docs/")) return(list(errors = find_credentials(text), warnings = NULL))
+  if (str_detect(file, "/references/(docs|code)/")) return(list(errors = find_credentials(text), warnings = NULL))
   functions <- check_functions(text, lifecycles)
   list(errors = c(functions$errors, find_credentials(text)), warnings = functions$warnings)
 }
