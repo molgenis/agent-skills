@@ -1,7 +1,7 @@
 # Contributing
 
 To add knowledge the skill is missing, open a
-[New example](https://github.com/molgenis/datashield-skills/issues/new?template=new-example.yml)
+[New example](https://github.com/molgenis/agent-skills/issues/new?template=new-example.yml)
 issue. A maintainer turns it into a file under `skills/datashield/references/examples/`.
 
 To open a pull request directly instead:

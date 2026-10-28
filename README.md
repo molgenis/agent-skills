@@ -1,22 +1,30 @@
-# DataSHIELD skills
+# MOLGENIS agent skills
 
-Agent skills for federated analysis with [DataSHIELD](https://www.datashield.org). They follow the
-[Agent Skills](https://agentskills.io) format, so any agent that supports skills can use them.
+Agent skills for MOLGENIS products and federated analysis with
+[DataSHIELD](https://www.datashield.org). They follow the [Agent Skills](https://agentskills.io)
+format, so any agent that supports skills can use them.
+
+| Skill | For |
+|---|---|
+| `datashield` | Analysts running federated analyses with DataSHIELD |
+| `armadillo` | Data managers and administrators of Armadillo servers |
 
 ## Install
 
-Claude Code:
+Claude Code, one plugin per skill:
 
 ```
-/plugin marketplace add molgenis/datashield-skills
-/plugin install datashield@datashield-skills
+/plugin marketplace add molgenis/agent-skills
+/plugin install datashield@molgenis
+/plugin install armadillo@molgenis
 ```
 
 Other agents (Codex, Cursor, Gemini CLI, GitHub Copilot and others), with the
 [skills CLI](https://github.com/vercel-labs/skills):
 
 ```
-npx skills add molgenis/datashield-skills
+npx skills add molgenis/agent-skills --skill datashield
+npx skills add molgenis/agent-skills --skill armadillo
 ```
 
 Add `-g` to install for all projects rather than the current one.

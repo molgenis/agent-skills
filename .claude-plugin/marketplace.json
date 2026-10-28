@@ -1,6 +1,6 @@
 {
-  "name": "datashield-skills",
-  "description": "Agent skills for federated analysis with DataSHIELD",
+  "name": "molgenis",
+  "description": "Agent skills for MOLGENIS products and federated analysis with DataSHIELD",
   "owner": {
     "name": "MOLGENIS"
   },
@@ -9,7 +9,15 @@
       "name": "datashield",
       "description": "Run federated analyses with DataSHIELD from R: login with tokens, server-side data manipulation, statistics, plots and models with the DataSHIELD client packages.",
       "source": "./",
-      "strict": false
+      "strict": false,
+      "skills": ["./skills/datashield"]
+    },
+    {
+      "name": "armadillo",
+      "description": "Manage MOLGENIS Armadillo servers: projects, tables and resources, uploads, subsets, profiles, package installs, and server installation, updates and migrations.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/armadillo"]
     }
   ]
 }
