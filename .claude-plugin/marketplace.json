@@ -1,0 +1,15 @@
+{
+  "name": "datashield-skills",
+  "description": "Agent skills for federated analysis with DataSHIELD",
+  "owner": {
+    "name": "MOLGENIS"
+  },
+  "plugins": [
+    {
+      "name": "datashield",
+      "description": "Run federated analyses with DataSHIELD from R: login with tokens, server-side data manipulation, statistics, plots and models with the DataSHIELD client packages.",
+      "source": "./",
+      "strict": false
+    }
+  ]
+}
