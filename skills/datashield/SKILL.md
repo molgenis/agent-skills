@@ -105,7 +105,7 @@ If a call fails because a method isn't found or allowed, run `DSI::datashield.me
 
 Read only what the task needs:
 
-- `references/functions/DSI.md`, `dsBaseClient.md`, `dsTidyverseClient.md`, `dsHelper.md`:
+- `references/functions/`: one file per client package, named after it (e.g. `DSI.md`),
   generated from each package's documentation. Each starts with an index table; search it for the
   function, then read that entry. Never use a function or argument that isn't there. The versions
   are in each file's title; if `packageVersion()` differs, trust the installed help (`?ds.mean`).
