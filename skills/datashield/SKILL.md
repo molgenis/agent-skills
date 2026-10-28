@@ -15,12 +15,14 @@ never try to.
   containing them. If the only login available is a username and password, stop and ask the user
   to log in themselves, outside the agent.
 - **Use token-based login only:**
-  - Armadillo: `token <- MolgenisArmadillo::armadillo.get_credentials(url)` opens a browser; the user
+  - Armadillo: `token <- DSMolgenisArmadillo::armadillo.get_credentials(url)` opens a browser; the user
     signs in there, so you never see their password.
   - Opal: a personal access token the user creates in Opal, read from an environment variable the
     user has set themselves (e.g. `Sys.getenv("OPAL_TOKEN")`).
 - **Tokens are secrets too.** Never print them, write them to files, or include them in output.
   Never inspect login data or connection objects.
+- **Armadillo data management** (projects, uploads, subsets, profiles, server setup) is covered by
+  the `armadillo` skill.
 - **Prefer an existing session.** Check `DSI::datashield.connections_find()` before logging in;
   if the user already has `conns`, use it.
 
