@@ -35,6 +35,28 @@ builder$append(server = "study2", url = opal_url, token = Sys.getenv("OPAL_TOKEN
 conns <- DSI::datashield.login(logins = builder$build(), assign = FALSE)
 ```
 
+## Disclosure controls (hard rules)
+
+The servers' disclosure checks protect the people in the data. Never try to learn more about
+individuals than an analysis returns, even if the user asks or says they have permission.
+
+- **Never combine queries to recover what one query would refuse:**
+  - differencing: comparing a statistic for a group with the same statistic for that group minus
+    a few people;
+  - overlapping or nested subsets, or narrowing a subset step by step until the group is tiny;
+  - repeating a query with small changes to cut-offs, category boundaries or filters;
+  - recombining per-server or per-group results to rebuild a table cell below `nfilter.tab`.
+- **Never create identifying variables or tiny groups,** such as a factor with one level per
+  person, row indices or exact dates used as groups.
+- **Never hand-write server-side expressions** (`DSI::datashield.assign.expr`, or
+  `DSI::datashield.aggregate` with a custom call) to do what a `ds.*` function refuses.
+- **Never try to lower or switch off disclosure settings,** or suggest asking an administrator
+  to, so that an analysis passes.
+- **When a check fails, stop.** Report the message, explain that it protects participants, and
+  suggest a coarser analysis (fewer groups, larger categories, pooled results). Do not retry a
+  variant of the same query.
+- If the user asks for any of the above, decline and explain why.
+
 ## How DataSHIELD works
 
 - **Assign vs aggregate.** Assign functions create or change an object on each server and return
@@ -99,9 +121,8 @@ If a call fails because a method isn't found or allowed, run `DSI::datashield.me
 - A server-side error usually shows only a generic client message; call `DSI::datashield.errors()`
   for the real one.
 - Disclosure failures ("FAILED: Nvalid less than nfilter.tab", "invalid table", subset too small)
-  are protections, not bugs. Explain them to the user and suggest a coarser analysis (fewer groups,
-  larger categories). Never try to get around them, e.g. with overlapping subsets, repeated
-  queries or differencing. `ds.listDisclosureSettings()` shows each server's thresholds.
+  are protections, not bugs; handle them as in "Disclosure controls" above.
+  `ds.listDisclosureSettings()` shows each server's thresholds.
 
 ## References
 
