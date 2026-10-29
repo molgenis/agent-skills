@@ -36,11 +36,32 @@ Catch the environment problem in server-side unit tests: create the test data in
 `test_that()`, not in the global environment, and call the server function there. A function
 that only looks in `.GlobalEnv` then fails in the test, not in a user's DSLite session.
 
+## DSLite (dsBaseClient's suite)
+
+Run from a dsBaseClient checkout. DSLite is the suite's default driver. `tests/testthat/setup.R`
+loads DSLite, DSOpal, DSMolgenisArmadillo, lme4, e1071 and DescTools whichever driver you use, so
+install them all.
+
+The server side is whichever dsBase is installed in your R library: the test servers load it
+from there. To test a particular dsBase, install it first (`R CMD INSTALL path/to/dsBase`, or into
+a separate library that you put first with `.libPaths()`).
+
+```r
+devtools::load_all()
+options(default_driver = "DSLiteDriver", datashield.return_errors = FALSE)
+testthat::test_dir("tests/testthat", filter = "smk-ds.dim", stop_on_failure = FALSE)
+```
+
+Expect each file's `setup` and `shutdown` tests to fail once per server under DSLite, with
+"Only in `actual`: connect.all.datasets ...". Those checks list the workspace with `lsDS`, which
+sees the client's session (see above). Judge the result by the other tests in the file.
+
 ## Armadillo in Docker (dsBaseClient's CI setup)
 
 Run from a dsBaseClient checkout. It needs Docker, R with MolgenisArmadillo and DSMolgenisArmadillo,
-and a free port 8080. The compose file starts Armadillo plus one fixed permissive R profile
-(`default`), so there are no profiles to manage.
+and a free port 8080: the upload script and the test harness both assume it, so stop whatever
+holds it rather than changing the port. The compose file starts Armadillo plus one fixed
+permissive R profile (`default`), so there are no profiles to manage.
 
 1. Check Docker is running: `docker info`. If it fails, start Docker first.
 2. Start the servers. The images are amd64-only; on an arm64 machine prefix the command with
