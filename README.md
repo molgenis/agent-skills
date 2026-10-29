@@ -35,13 +35,12 @@ Add `-g` to install for all projects rather than the current one.
 ## Contents
 
 - `skills/datashield/SKILL.md`: rules and workflow for DataSHIELD analysis from R.
-- `skills/datashield/references/functions/`: function references for each DataSHIELD client
-  package with a GitHub release, generated from the package documentation.
-- `skills/datashield/references/recipes/`: worked examples generated from the DataSHIELD wiki
-  tutorials.
-- `skills/datashield/references/examples/`: worked examples contributed from real analyses.
+- `skills/datashield/references/lifecycle.md`: deprecated, defunct and superseded functions.
+- `skills/datashield/references/functions/dsTidyverseClient.md`: dsTidyverseClient arguments.
 - `skills/datashield/references/patterns.md`: DataSHIELD-specific patterns and pitfalls.
-- `skills/datashield/references/style.md`: default conventions for results and plots.
+- `data/functions/`: function references for each DataSHIELD client package with a GitHub
+  release, generated from the package documentation. Not shipped with the skill: the checks and
+  the lifecycle list are built from them.
 - `skills/datashield-dev/SKILL.md`: disclosure rules and workflow for developing DataSHIELD
   packages.
 - `skills/datashield-dev/references/docs/`: the DataSHIELD wiki developer guide and disclosure
@@ -59,8 +58,9 @@ Add `-g` to install for all projects rather than the current one.
 
 ```
 Rscript tools/list-client-packages.R packages.csv
-Rscript tools/build-all-references.R packages.csv skills/datashield/references/functions
-Rscript tools/build-recipes.R <datashieldWiki>/analysis-tutorials skills/datashield/references/recipes
+Rscript tools/build-all-references.R packages.csv data/functions
+Rscript tools/build-lifecycle.R data/functions skills/datashield/references/lifecycle.md
+cp data/functions/dsTidyverseClient.md skills/datashield/references/functions/
 
 Rscript tools/list-releases.R armadillo.csv molgenis/molgenis-r-armadillo molgenis/molgenis-r-datashield
 Rscript tools/build-all-references.R armadillo.csv skills/armadillo/references/functions
@@ -81,9 +81,5 @@ frontmatter and that the files it points to exist. Across `SKILL.md` and the ref
 (except external documentation and source in `references/docs/` and `references/code/`, which
 are checked for credentials only), it
 fails on calls to `ds.*`, `dh.*`, `datashield.*` or `armadillo.*` functions missing from
-`references/functions/`, on defunct functions and on
+the skill's `references/functions/` or `data/functions/`, on defunct functions and on
 username or password arguments, and warns on deprecated or superseded functions.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).

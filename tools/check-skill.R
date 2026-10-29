@@ -1,9 +1,9 @@
 # Checks that a skill's SKILL.md and reference files are consistent: valid
 # frontmatter, every path SKILL.md points to present, every function called
-# documented in references/functions/, and no username or password
+# documented in references/functions/ or <functions-dir>, and no username or password
 # arguments, so an agent is never sent to a missing file, told to use a function
 # that does not exist, or shown credentials.
-# Usage: Rscript check-skill.R <skill-dir>
+# Usage: Rscript check-skill.R <skill-dir> <functions-dir>
 
 library(purrr)
 library(stringr)
@@ -33,8 +33,8 @@ find_missing_paths <- function(text, skill_dir) {
 }
 
 # Returns each documented function's lifecycle ("" when stable), named by function.
-read_function_lifecycles <- function(skill_dir) {
-  files <- list.files(file.path(skill_dir, "references", "functions"), "\\.md$", full.names = TRUE)
+read_function_lifecycles <- function(skill_dir, functions_dir) {
+  files <- list.files(c(file.path(skill_dir, "references", "functions"), functions_dir), "\\.md$", full.names = TRUE)
   index_rows <- str_match(unlist(map(files, readLines)), "^\\| `([^`]+)` \\|[^|]*\\| *([a-z]*) *\\|")
   index_rows <- index_rows[!is.na(index_rows[, 1]), , drop = FALSE]
   set_names(index_rows[, 3], index_rows[, 2])
@@ -47,7 +47,7 @@ find_called_functions <- function(text) {
 
 find_undocumented_functions <- function(names, lifecycles) {
   undocumented <- setdiff(names, names(lifecycles))
-  map_chr(undocumented, \(name) paste0("function not in references/functions/: ", name))
+  map_chr(undocumented, \(name) paste0("function not in the function references: ", name))
 }
 
 find_functions_in_lifecycle <- function(names, lifecycles, stages) {
@@ -85,10 +85,11 @@ check_skill_file <- function(skill_dir, lifecycles) {
   )
 }
 
-# The function references are excluded: they document the functions, so they are the yardstick.
+# The function references and the lifecycle list are excluded: they document the functions, so
+# they are the yardstick, and the lifecycle list names defunct functions on purpose.
 list_reference_files <- function(skill_dir) {
   files <- list.files(file.path(skill_dir, "references"), "\\.md$", recursive = TRUE, full.names = TRUE)
-  discard(files, \(file) str_detect(file, "/references/functions/"))
+  discard(files, \(file) str_detect(file, "/references/(functions/|lifecycle\\.md$)"))
 }
 
 # references/docs/ and references/code/ hold external documentation and verbatim package source
@@ -108,8 +109,8 @@ report_problems <- function(file, problems) {
   length(problems$errors)
 }
 
-check_skill <- function(skill_dir) {
-  lifecycles <- read_function_lifecycles(skill_dir)
+check_skill <- function(skill_dir, functions_dir) {
+  lifecycles <- read_function_lifecycles(skill_dir, functions_dir)
   reference_files <- list_reference_files(skill_dir)
   n_errors <- report_problems(file.path(skill_dir, "SKILL.md"), check_skill_file(skill_dir, lifecycles)) +
     sum(map_int(reference_files, \(file) report_problems(file, check_reference_file(file, lifecycles))))
@@ -117,5 +118,5 @@ check_skill <- function(skill_dir) {
 }
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 1) stop("Usage: Rscript check-skill.R <skill-dir>")
-if (!check_skill(args[[1]])) quit(status = 1)
+if (length(args) != 2) stop("Usage: Rscript check-skill.R <skill-dir> <functions-dir>")
+if (!check_skill(args[[1]], args[[2]])) quit(status = 1)
