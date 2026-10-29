@@ -44,6 +44,8 @@ Follow `references/docs/index.md` in order: R package basics, repositories, docu
 client function, server function, exports, trying it with DSLite, `devtools::check`, server and
 client unit tests (testthat, DSLite), vignettes, site, GitHub release, CRAN.
 `references/docs/getting-started-developer-checklist.md` is the short version.
+To run tests locally (DSLite, or Armadillo in Docker as dsBaseClient's CI does) and for the ways
+DSLite differs from a real server, read `references/testing-locally.md`.
 
 ## Engineering practice
 
