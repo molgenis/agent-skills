@@ -8,7 +8,9 @@ for comparison and to justify deviations.
 
 dsBase declares the defaults as `default.*` options in `inst/DATASHIELD`; the
 platform (Opal / Armadillo) sets them per profile at session start, and admins
-can override them. dsBase reads them with `listDisclosureSettingsDS`. Defaults:
+can override them. dsBase reads them with `listDisclosureSettingsDS`. Defaults,
+read from dsBase 7.0.0.9000 (`v7.0-dev`); check `inst/DATASHIELD` of the version
+being audited:
 
 | Control | Default | Guards (class) | Meaning |
 |---|---|---|---|

@@ -14,7 +14,7 @@
     },
     {
       "name": "datashield-dev",
-      "description": "Develop DataSHIELD R packages: client/server function pairs, disclosure checks, testing with DSLite, releases, and disclosure audits.",
+      "description": "Develop DataSHIELD R packages: client/server function pairs, disclosure checks, testing with DSLite, and releases.",
       "source": "./",
       "strict": false,
       "skills": ["./skills/datashield-dev"]

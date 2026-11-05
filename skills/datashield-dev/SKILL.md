@@ -1,6 +1,6 @@
 ---
 name: datashield-dev
-description: Develop DataSHIELD R packages — paired client-side and server-side functions, aggregate and assign methods, the DATASHIELD exports file, disclosure checks and settings (nfilter.*), testing with DSLite and testthat, documentation, releases and CRAN, and auditing a function's disclosure risk. Use whenever the user writes, reviews, tests or releases DataSHIELD package code, server-side *DS functions, or asks whether a function is disclosive. For running analyses use the datashield skill; for Armadillo servers use the armadillo skill.
+description: Develop DataSHIELD R packages — paired client-side and server-side functions, aggregate and assign methods, the DATASHIELD exports file, disclosure checks and settings (nfilter.*), testing with DSLite and testthat, documentation, releases and CRAN. Use whenever the user writes, reviews, tests or releases DataSHIELD package code or server-side *DS functions. For running analyses use the datashield skill; for Armadillo servers use the armadillo skill; for disclosure audits use the disclosure-audit skill.
 ---
 
 # DataSHIELD package development

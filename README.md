@@ -7,7 +7,7 @@ format, so any agent that supports skills can use them.
 | Skill | For |
 |---|---|
 | `datashield` | Analysts running federated analyses with DataSHIELD |
-| `datashield-dev` | Developers writing or auditing DataSHIELD packages |
+| `datashield-dev` | Developers writing DataSHIELD packages |
 | `armadillo` | Data managers and administrators of Armadillo servers |
 | `disclosure-audit` | Auditing DataSHIELD packages and Flower apps for disclosure risk |
 
