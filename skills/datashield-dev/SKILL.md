@@ -27,7 +27,8 @@ individual-level data, so they are where disclosure is controlled.
 - **Leave nothing behind.** Remove intermediate server-side objects that the result doesn't need,
   and when a function wraps another package's function, review everything that function returns.
 - When reviewing someone else's function, work through
-  `references/docs/opmanag-disclose-audit-checklist.md` item by item.
+  `references/docs/opmanag-disclose-audit-checklist.md` item by item. For a scored audit of a
+  whole package, use the disclosure-audit skill.
 
 ## How a function pair works
 

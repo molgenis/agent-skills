@@ -9,6 +9,7 @@ format, so any agent that supports skills can use them.
 | `datashield` | Analysts running federated analyses with DataSHIELD |
 | `datashield-dev` | Developers writing or auditing DataSHIELD packages |
 | `armadillo` | Data managers and administrators of Armadillo servers |
+| `disclosure-audit` | Auditing DataSHIELD packages and Flower apps for disclosure risk |
 
 ## Install
 
@@ -19,6 +20,7 @@ Claude Code, one plugin per skill:
 /plugin install datashield@molgenis
 /plugin install datashield-dev@molgenis
 /plugin install armadillo@molgenis
+/plugin install disclosure-audit@molgenis
 ```
 
 Other agents (Codex, Cursor, Gemini CLI, GitHub Copilot and others), with the
@@ -28,6 +30,7 @@ Other agents (Codex, Cursor, Gemini CLI, GitHub Copilot and others), with the
 npx skills add molgenis/agent-skills --skill datashield
 npx skills add molgenis/agent-skills --skill datashield-dev
 npx skills add molgenis/agent-skills --skill armadillo
+npx skills add molgenis/agent-skills --skill disclosure-audit
 ```
 
 Add `-g` to install for all projects rather than the current one.
@@ -54,6 +57,9 @@ Add `-g` to install for all projects rather than the current one.
 - `skills/armadillo/references/functions/`: MolgenisArmadillo and DSMolgenisArmadillo references.
 - `skills/armadillo/references/docs/`: the Armadillo server documentation, generated from the
   latest molgenis-service-armadillo release.
+- `skills/disclosure-audit/SKILL.md`: threat model, rules and workflow for disclosure audits.
+- `skills/disclosure-audit/references/`: attack mechanisms, DataSHIELD and Flower screens,
+  thresholds, scoring rubric and citations.
 
 ## Regenerating references
 

@@ -25,6 +25,13 @@
       "source": "./",
       "strict": false,
       "skills": ["./skills/armadillo"]
+    },
+    {
+      "name": "disclosure-audit",
+      "description": "Audit DataSHIELD server packages and Flower federated-learning apps for data-disclosure risk: attack mechanisms, disclosure thresholds, and severity × likelihood scoring.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/disclosure-audit"]
     }
   ]
 }
